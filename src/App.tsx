@@ -1,9 +1,15 @@
-import { useState } from "react";
-import tariLogo from "./assets/tari.svg";
 import "./App.css";
+import { TariConnectButton } from "./connect/TariConnectButton";
+import useTariProvider from "./store/provider";
+import useAccount from "./store/account";
+import tariLogo from "./assets/tari.svg";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { provider } = useTariProvider();
+  const { ootleAccount, setOotleAccount } = useAccount();
+  const handleOnConnected = async () => {
+    await setOotleAccount();
+  };
 
   return (
     <>
@@ -13,10 +19,14 @@ function App() {
         </a>
       </div>
       <h1>Hello Tari Ootle</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+      <TariConnectButton onConnected={handleOnConnected} />
+      <div style={{ paddingLeft: "10px" }}>
+        {`Provider: ${
+          provider?.isConnected() ? provider.providerName : "not connected"
+        }`}
+      </div>
+      <div style={{ paddingLeft: "10px" }}>
+        {`Account: ${ootleAccount ? ootleAccount?.address : "not found"}`}
       </div>
     </>
   );
