@@ -1,50 +1,37 @@
-# React + TypeScript + Vite
+# The Hello Ootle Tapplet
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an _hello world_ tapplet for testing purposes only. All you can do here is connect to the `TariProvider` and check the status of your user account. Just like that.
 
-Currently, two official plugins are available:
+## Provide configuration in .env file
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Copy the `.env.example` file to `.env` and edit the correct environment variable values.
 
-## Expanding the ESLint configuration
+## Run the application
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To run the web:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```shell
+npm install
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Connect to your wallet
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Click on `Connect` button on the top right corner, choose `WalletConnect` option.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+![Open WalletConnect](docs/wallet-connect-1.png)
+
+Copy the connection id by clicking on copy icon on the top right corner.
+
+![Copy WalletConnect connection id](docs/wallet-connect-2.png)
+
+Go to your wallet and click `Connect with WalletConnect` button.
+A dialog will appear asking you to approve the connection.
+
+![Copy WalletConnect connection id](docs/wallet-connect-3.png)
+
+Authorize it on the next screen.
+
+![Copy WalletConnect connection id](docs/wallet-connect-4.png)
+
+Now you should be connected. Go back to application and the connection button now should read `Connected`.
