@@ -34,6 +34,8 @@ const WALLET_CONNECT_PROJECT_ID =
   import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || null;
 const WALLET_DAEMON_ENABLED =
   import.meta.env.VITE_WALLET_DAEMON_ENABLED || false;
+const TARI_UNIVERSE_ENABLED =
+  import.meta.env.VITE_TARI_UNIVERSE_ENABLED || false;
 const WALLET_DAEMON_JRPC =
   import.meta.env.VITE_WALLET_DAEMON_JRPC || "http://127.0.0.1:12009/json_rpc";
 
@@ -105,6 +107,13 @@ export function TariWalletSelectionDialog(props: WalletSelectionProps) {
         </Stack>
         <Divider sx={{ mt: 3, mb: 3 }} variant="middle" />
         <Grid container spacing={2} justifyContent="center">
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 4 }}>
+            <WalletConnectionMethodCard
+              img={WalletConnectLogo}
+              text="WalletConnect"
+              callback={onWalletConnectClick}
+            ></WalletConnectionMethodCard>
+          </Grid>
           {WALLET_DAEMON_ENABLED && (
             <Grid container rowSpacing={1} columnSpacing={{ xs: 4 }}>
               <WalletConnectionMethodCard
@@ -114,20 +123,15 @@ export function TariWalletSelectionDialog(props: WalletSelectionProps) {
               ></WalletConnectionMethodCard>
             </Grid>
           )}
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 4 }}>
-            <WalletConnectionMethodCard
-              img={WalletConnectLogo}
-              text="WalletConnect"
-              callback={onWalletConnectClick}
-            ></WalletConnectionMethodCard>
-          </Grid>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 4 }}>
-            <WalletConnectionMethodCard
-              img={TariLogo}
-              text="Tari Universe"
-              callback={onTariUniverseClick}
-            ></WalletConnectionMethodCard>
-          </Grid>
+          {TARI_UNIVERSE_ENABLED && (
+            <Grid container rowSpacing={1} columnSpacing={{ xs: 4 }}>
+              <WalletConnectionMethodCard
+                img={TariLogo}
+                text="Tari Universe"
+                callback={onTariUniverseClick}
+              ></WalletConnectionMethodCard>
+            </Grid>
+          )}
         </Grid>
       </Box>
     </Dialog>

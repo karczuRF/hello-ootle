@@ -1,0 +1,48 @@
+{
+  "packageName": "hello-ootle",
+  "version": "0.1.0",
+  "displayName": "Hello Ootle",
+  "status": "WIP",
+  "category": "TEST",
+  "author": {
+    "name": "",
+    "website": "https://api.github.com/users/karczuRF/repos"
+  },
+  "about": {
+    "summary": "The Hello Ootle Tapplet",
+    "description": "MVP Tapplet fot the Ootle"
+  },
+  "audits": [
+    {
+      "auditor": "",
+      "reportUrl": ""
+    }
+  ],
+  "design": {
+    "logoPath": "src/assets/react.svg",
+    "backgroundPath": "src/assets/react.svg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "",
+    "codeowners": ["@karczuRF"]
+  },
+  "source": {
+    "location": {
+      "npm": {}
+    }
+  },
+  "supportedChain": ["MAINNET", "STAGENET", "NEXTNET"],
+  "permissions": {
+    "requiredPermissions": [
+      "TariPermissionKeyList",
+      "TariPermissionAccountInfo",
+      "TariPermissionTransactionGet",
+      "TariPermissionSubstatesRead",
+      "TariPermissionTemplatesRead",
+      "TariPermissionTransactionSend"
+    ],
+    "optionalPermissions": []
+  },
+  "manifestVersion": "1.0.0"
+}

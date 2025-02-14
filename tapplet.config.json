@@ -1,0 +1,16 @@
+{
+  "packageName": "hello-ootle",
+  "version": "0.1.0",
+  "supportedChain": ["MAINNET", "STAGENET", "NEXTNET"],
+  "permissions": {
+    "requiredPermissions": [
+      "TariPermissionKeyList",
+      "TariPermissionAccountInfo",
+      "TariPermissionTransactionGet",
+      "TariPermissionSubstatesRead",
+      "TariPermissionTemplatesRead",
+      "TariPermissionTransactionSend"
+    ],
+    "optionalPermissions": []
+  }
+}
