@@ -11,24 +11,23 @@ import Grid from "@mui/material/Grid2";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import {
-  TariPermissions,
-  TariProvider,
-  TariUniverseProvider,
-  TariUniverseProviderParameters,
-  WalletConnectTariProvider,
-} from "@tari-project/tarijs";
-import {
   TariPermissionAccountInfo,
   TariPermissionKeyList,
+  TariPermissions,
   TariPermissionSubstatesRead,
   TariPermissionTemplatesRead,
-  TariPermissionTransactionSend,
   TariPermissionTransactionsGet,
 } from "@tari-project/tari-permissions";
 import {
   WalletDaemonFetchParameters,
-  WalletDaemonTariProvider,
-} from "@tari-project/wallet-daemon-provider";
+  WalletDaemonTariSigner,
+} from "@tari-project/wallet-daemon-signer";
+import { WalletConnectTariSigner } from "@tari-project/wallet-connect-signer";
+import {
+  TariUniverseSigner,
+  TariUniverseSignerParameters,
+} from "@tari-project/tari-universe-signer";
+import { TariSigner } from "@tari-project/tari-signer";
 
 const WALLET_CONNECT_PROJECT_ID =
   import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || null;
@@ -49,13 +48,12 @@ walletDaemonPermissions
   .addPermission(new TariPermissionAccountInfo())
   .addPermission(new TariPermissionTransactionsGet())
   .addPermission(new TariPermissionSubstatesRead())
-  .addPermission(new TariPermissionTemplatesRead())
-  .addPermission(new TariPermissionTransactionSend());
+  .addPermission(new TariPermissionTemplatesRead());
 const walletDaemonOptionalPermissions = new TariPermissions();
 
 export interface WalletSelectionProps {
   open: boolean;
-  onConnected: (provider: TariProvider) => void;
+  onConnected: (Signer: TariSigner) => void;
   onClose: () => void;
 }
 
@@ -72,27 +70,28 @@ export function TariWalletSelectionDialog(props: WalletSelectionProps) {
       optionalPermissions: walletDaemonOptionalPermissions,
       serverUrl: WALLET_DAEMON_JRPC,
     };
-    const walletDaemonProvider =
-      await WalletDaemonTariProvider.buildFetchProvider(params);
-    onConnected(walletDaemonProvider);
+    const walletDaemonSigner = await WalletDaemonTariSigner.buildFetchSigner(
+      params
+    );
+    onConnected(walletDaemonSigner);
     handleClose();
   };
 
   const onWalletConnectClick = async () => {
     const projectId = WALLET_CONNECT_PROJECT_ID;
-    const walletConnectProvider = new WalletConnectTariProvider(projectId);
+    const walletConnectSigner = new WalletConnectTariSigner(projectId);
     handleClose();
-    await walletConnectProvider.connect();
-    onConnected(walletConnectProvider);
+    await walletConnectSigner.connect();
+    onConnected(walletConnectSigner);
   };
 
   const onTariUniverseClick = async () => {
-    const params: TariUniverseProviderParameters = {
+    const params: TariUniverseSignerParameters = {
       permissions: walletDaemonPermissions,
       optionalPermissions: walletDaemonOptionalPermissions,
     };
-    const provider = new TariUniverseProvider(params);
-    onConnected(provider);
+    const Signer = new TariUniverseSigner(params);
+    onConnected(Signer);
     handleClose();
   };
 

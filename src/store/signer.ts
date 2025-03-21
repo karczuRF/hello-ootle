@@ -20,20 +20,22 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 //  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import { TariSigner } from "@tari-project/tari-signer/dist";
 import { create } from "zustand";
-import { TariProvider } from "@tari-project/tarijs";
 
-export interface ProviderStore<TProvider extends TariProvider> {
-  provider: TProvider | null;
+export interface SignerStore<TSigner extends TariSigner> {
+  signer: TSigner | null;
 
-  setProvider(provider: TProvider): void;
+  setSigner(signer: TSigner): void;
 }
 
-const useTariProvider = create<ProviderStore<TariProvider>>()((set) => ({
-  provider: null,
-  setProvider(provider) {
-    set({ provider });
+const useTariSigner = create<SignerStore<TariSigner>>()((set) => ({
+  signer: null,
+  setSigner(signer) {
+    console.warn("🛜🛜 set signer ", signer);
+
+    set({ signer });
   },
 }));
 
-export default useTariProvider;
+export default useTariSigner;

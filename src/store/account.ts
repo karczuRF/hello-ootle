@@ -21,11 +21,12 @@
 //  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import { create } from "zustand";
-import useTariProvider from "./provider.ts";
-import { Account } from "@tari-project/tarijs";
+import useTariSigner from "./signer.ts";
+import { AccountData, substateIdToString } from "@tari-project/tarijs-types";
+import { WalletConnectTariSigner } from "@tari-project/wallet-connect-signer";
 
 interface State {
-  ootleAccount?: Account;
+  ootleAccount?: AccountData;
 }
 
 interface Actions {
@@ -41,14 +42,30 @@ const initialState: State = {
 export const useAccount = create<OotleWalletStoreState>()((set) => ({
   ...initialState,
   setOotleAccount: async () => {
-    const provider = useTariProvider.getState().provider;
+    console.warn("Try to set the Ootle acc");
+    const signer = useTariSigner.getState().signer;
+    console.warn("Try to set the Ootle signer", signer);
     try {
-      if (!provider) {
+      if (!signer) {
         return;
       }
-      const account = await provider.getAccount();
+      const account = await signer.getAccount();
+      console.warn("Try to set the Ootle account: ", account);
+      const wcsigner = signer as WalletConnectTariSigner;
+      console.warn("🛜🛜 GET NFTS WALLETCONNECT PROVIDER: ", signer);
+      const nft = await wcsigner.getNftsList({
+        account: { ComponentAddress: substateIdToString(account.address) },
+        limit: 20,
+        offset: 0,
+      });
+      console.warn("🛜🛜 GET NFTS WALLETCONNECT: ", nft);
       set({
-        ootleAccount: account,
+        ootleAccount: {
+          account_id: account.account_id,
+          address: account.address,
+          public_key: account.public_key,
+          resources: [],
+        },
       });
     } catch (error) {
       console.error("Could not set the Ootle account: ", error);

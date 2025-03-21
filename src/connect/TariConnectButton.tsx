@@ -3,15 +3,15 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import TariLogoWhite from "./content/tari-logo-white.svg";
 import { TariWalletSelectionDialog } from "./TariWalletSelectionDialog";
-import useTariProvider from "../store/provider.ts";
-import { TariProvider } from "@tari-project/tarijs";
+import useTariSigner from "../store/signer.ts";
+import { TariSigner } from "@tari-project/tari-signer";
 
 interface Props {
-  onConnected?: (provider: TariProvider) => void;
+  onConnected?: (Signer: TariSigner) => void;
 }
 
 export function TariConnectButton(props: Props) {
-  const { provider, setProvider } = useTariProvider();
+  const { signer, setSigner } = useTariSigner();
   const { onConnected } = props;
   const [walletSelectionOpen, setWalletSelectionOpen] = React.useState(false);
 
@@ -23,9 +23,9 @@ export function TariConnectButton(props: Props) {
     setWalletSelectionOpen(false);
   };
 
-  const handleOnConnected = (provider: TariProvider) => {
-    setProvider(provider);
-    onConnected?.(provider);
+  const handleOnConnected = (Signer: TariSigner) => {
+    setSigner(Signer);
+    onConnected?.(Signer);
   };
 
   return (
@@ -33,7 +33,7 @@ export function TariConnectButton(props: Props) {
       <Button variant="contained" onClick={handleConnectClick}>
         <img width="30px" height="30px" src={TariLogoWhite} />
         <div style={{ paddingLeft: "10px" }}>
-          {provider?.isConnected() ? "Connected" : "Connect"}
+          {signer?.isConnected() ? "Connected" : "Connect"}
         </div>
       </Button>
       <TariWalletSelectionDialog

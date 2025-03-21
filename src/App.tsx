@@ -1,11 +1,11 @@
 import "./App.css";
 import { TariConnectButton } from "./connect/TariConnectButton";
-import useTariProvider from "./store/provider";
+import useTariSigner from "./store/signer";
 import useAccount from "./store/account";
 import tariLogo from "./assets/tari.svg";
 
 function App() {
-  const { provider } = useTariProvider();
+  const { Signer } = useTariSigner();
   const { ootleAccount, setOotleAccount } = useAccount();
   const handleOnConnected = async () => {
     await setOotleAccount();
@@ -21,12 +21,15 @@ function App() {
       <h1>Hello Tari Ootle</h1>
       <TariConnectButton onConnected={handleOnConnected} />
       <div style={{ paddingLeft: "10px" }}>
-        {`Provider: ${
-          provider?.isConnected() ? provider.providerName : "not connected"
+        {`Signer: ${
+          Signer?.isConnected() ? Signer.signerName : "not connected"
         }`}
       </div>
       <div style={{ paddingLeft: "10px" }}>
-        {`Account: ${ootleAccount ? ootleAccount?.address : "not found"}`}
+        {ootleAccount?.address &&
+          `Account: ${
+            ootleAccount ? ootleAccount?.address : "address not found"
+          }`}
       </div>
     </>
   );
