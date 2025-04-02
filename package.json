@@ -1,7 +1,7 @@
 {
   "name": "hello-ootle",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,13 +14,8 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.3",
-    "@tari-project/tari-universe-signer": "^0.5.1",
-    "@tari-project/tari-permissions": "^0.5.1",
-    "@tari-project/tari-signer": "^0.5.1",
-    "@tari-project/tarijs-types": "^0.5.1",
-    "@tari-project/wallet-daemon-signer": "^0.5.1",
-    "@tari-project/wallet_jrpc_client": "^1.5.1",
-    "@tari-project/wallet-connect-signer": "^0.5.1",
+    "@tari-project/tarijs-all": "^0.5.4",
+    "@tari-project/wallet_jrpc_client": "^1.5.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zustand": "^5.0.3"

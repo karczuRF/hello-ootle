@@ -20,7 +20,7 @@
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 //  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import { TariSigner } from "@tari-project/tari-signer/dist";
+import { TariSigner } from "@tari-project/tarijs-all";
 import { create } from "zustand";
 
 export interface SignerStore<TSigner extends TariSigner> {

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TariLogoWhite from "./content/tari-logo-white.svg";
 import { TariWalletSelectionDialog } from "./TariWalletSelectionDialog";
 import useTariSigner from "../store/signer.ts";
-import { TariSigner } from "@tari-project/tari-signer";
+import { TariSigner } from "@tari-project/tarijs-all";
 
 interface Props {
   onConnected?: (Signer: TariSigner) => void;

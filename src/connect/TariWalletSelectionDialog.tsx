@@ -11,23 +11,25 @@ import Grid from "@mui/material/Grid2";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import {
+  permissions,
+  TariSigner,
+  TariUniverseSigner,
+  TariUniverseSignerParameters,
+} from "@tari-project/tarijs-all";
+import {
+  WalletDaemonFetchParameters,
+  WalletDaemonTariSigner,
+} from "@tari-project/wallet-daemon-signer";
+import { WalletConnectTariSigner } from "@tari-project/wallet-connect-signer";
+
+const {
   TariPermissionAccountInfo,
   TariPermissionKeyList,
   TariPermissions,
   TariPermissionSubstatesRead,
   TariPermissionTemplatesRead,
   TariPermissionTransactionsGet,
-} from "@tari-project/tari-permissions";
-import {
-  WalletDaemonFetchParameters,
-  WalletDaemonTariSigner,
-} from "@tari-project/wallet-daemon-signer";
-import { WalletConnectTariSigner } from "@tari-project/wallet-connect-signer";
-import {
-  TariUniverseSigner,
-  TariUniverseSignerParameters,
-} from "@tari-project/tari-universe-signer";
-import { TariSigner } from "@tari-project/tari-signer";
+} = permissions;
 
 const WALLET_CONNECT_PROJECT_ID =
   import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || null;

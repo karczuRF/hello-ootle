@@ -22,8 +22,11 @@
 
 import { create } from "zustand";
 import useTariSigner from "./signer.ts";
-import { AccountData, substateIdToString } from "@tari-project/tarijs-types";
-import { WalletConnectTariSigner } from "@tari-project/wallet-connect-signer";
+import {
+  AccountData,
+  substateIdToString,
+  WalletConnectTariSigner,
+} from "@tari-project/tarijs-all";
 
 interface State {
   ootleAccount?: AccountData;
