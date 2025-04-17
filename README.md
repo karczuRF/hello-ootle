@@ -15,6 +15,25 @@ npm install
 npm run dev
 ```
 
+### Tari Universe Setup
+
+Make sure that `taplet.config.json` is in the root directory and has all the required fields as below. The values ​​are just examples and may vary.
+
+```
+{
+  "packageName": "hello-ootle",
+  "displayName": "Hello Ootle",
+  "version": "0.1.0",
+  "supportedChain": ["MAINNET", "STAGENET", "NEXTNET"],
+  "permissions": {
+    "requiredPermissions": [
+      "TariPermissionAccountInfo",
+    ],
+    "optionalPermissions": []
+  }
+}
+```
+
 ### Connect to your wallet
 
 Click on `Connect` button on the top right corner, choose `WalletConnect` option.

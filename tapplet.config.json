@@ -1,5 +1,6 @@
 {
   "packageName": "hello-ootle",
+  "displayName": "Hello Ootle",
   "version": "0.1.0",
   "supportedChain": ["MAINNET", "STAGENET", "NEXTNET"],
   "permissions": {
