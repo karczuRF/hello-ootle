@@ -36,7 +36,7 @@ const WALLET_CONNECT_PROJECT_ID =
 const WALLET_DAEMON_ENABLED =
   import.meta.env.VITE_WALLET_DAEMON_ENABLED || false;
 const TARI_UNIVERSE_ENABLED =
-  import.meta.env.VITE_TARI_UNIVERSE_ENABLED || false;
+  import.meta.env.VITE_TARI_UNIVERSE_ENABLED || true;
 const WALLET_DAEMON_JRPC =
   import.meta.env.VITE_WALLET_DAEMON_JRPC || "http://127.0.0.1:12009/json_rpc";
 
