@@ -15,12 +15,10 @@ import {
   TariSigner,
   TariUniverseSigner,
   TariUniverseSignerParameters,
-} from "@tari-project/tarijs-all";
-import {
+  WalletConnectTariSigner,
   WalletDaemonFetchParameters,
   WalletDaemonTariSigner,
-} from "@tari-project/wallet-daemon-signer";
-import { WalletConnectTariSigner } from "@tari-project/wallet-connect-signer";
+} from "@tari-project/tarijs-all";
 
 const {
   TariPermissionAccountInfo,
@@ -42,8 +40,8 @@ const WALLET_DAEMON_JRPC =
 
 // Minimal permissions for the example site
 // But each application will have different permission needs
-const walletDaemonPermissions = new TariPermissions();
-walletDaemonPermissions
+const walletTariPermissions = new TariPermissions();
+walletTariPermissions
   // Required for createFreeTestCoins
   .addPermission("Admin")
   .addPermission(new TariPermissionKeyList())
@@ -68,7 +66,7 @@ export function TariWalletSelectionDialog(props: WalletSelectionProps) {
 
   const onWalletDaemonClick = async () => {
     const params: WalletDaemonFetchParameters = {
-      permissions: walletDaemonPermissions,
+      permissions: walletTariPermissions,
       optionalPermissions: walletDaemonOptionalPermissions,
       serverUrl: WALLET_DAEMON_JRPC,
     };
@@ -80,8 +78,10 @@ export function TariWalletSelectionDialog(props: WalletSelectionProps) {
   };
 
   const onWalletConnectClick = async () => {
-    const projectId = WALLET_CONNECT_PROJECT_ID;
-    const walletConnectSigner = new WalletConnectTariSigner(projectId);
+    const walletConnectSigner = new WalletConnectTariSigner({
+      projectId: WALLET_CONNECT_PROJECT_ID,
+      requiredPermissions: walletTariPermissions.getPermissions(),
+    });
     handleClose();
     await walletConnectSigner.connect();
     onConnected(walletConnectSigner);
@@ -89,7 +89,7 @@ export function TariWalletSelectionDialog(props: WalletSelectionProps) {
 
   const onTariUniverseClick = async () => {
     const params: TariUniverseSignerParameters = {
-      permissions: walletDaemonPermissions,
+      permissions: walletTariPermissions,
       optionalPermissions: walletDaemonOptionalPermissions,
     };
     const Signer = new TariUniverseSigner(params);

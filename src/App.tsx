@@ -1,16 +1,23 @@
 import "./App.css";
 import { TariConnectButton } from "./connect/TariConnectButton";
+// import {
+//   defaultPermissions,
+//   TariConnectButton as TCB,
+// } from "@tari-project/react-mui-connect-button";
 import useTariSigner from "./store/signer";
 import useAccount from "./store/account";
 import tariLogo from "./assets/tari.svg";
 import { Button, Paper, TextField } from "@mui/material";
 import { createToken, takeFreeTestnetTokens } from "./hooks/transactions";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+// import { AccountData, TariSigner } from "@tari-project/tarijs-all";
 
 function App() {
   const { signer } = useTariSigner();
   const { ootleAccount, setOotleAccount } = useAccount();
   const [tokenTemplateAddress, setTokenTemplateAddress] = useState("");
+  // const [wcSigner, setWcSigner] = useState<TariSigner | null>(null);
+  // const [wcAccount, setAccount] = useState<AccountData | null>(null);
 
   const handleTokenTemplateAddressChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -18,9 +25,13 @@ function App() {
     setTokenTemplateAddress(event.target.value);
   };
 
-  const handleOnConnected = async () => {
+  const handleOnConnected = useCallback(async () => {
+    console.log(
+      "on connected: set the Ootle account with the signer: ",
+      signer?.signerName
+    );
     await setOotleAccount();
-  };
+  }, [signer, setOotleAccount]);
 
   const onCreateToken = async () => {
     if (!signer) return;
@@ -33,6 +44,19 @@ function App() {
     const resp = await takeFreeTestnetTokens(signer);
     console.log("create tokens", resp);
   };
+  // const onConnected = async (signer: TariSigner) => {
+  //   setWcSigner(signer);
+  //   const account = await signer.getAccount();
+  //   setAccount(account);
+  //   console.log("wc acc", wcAccount?.address);
+  // };
+
+  // const WALLET_CONNECT_PROJECT_ID =
+  //   import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || null;
+  // const wcParams = {
+  //   projectId: WALLET_CONNECT_PROJECT_ID,
+  //   requiredPermissions: defaultPermissions().getPermissions(),
+  // };
 
   return (
     <>
@@ -42,6 +66,12 @@ function App() {
         </a>
       </div>
       <h1>Hello Tari Ootle</h1>
+      {/* <TCB
+        isConnected={wcSigner?.isConnected() || false}
+        onConnected={onConnected}
+        walletConnectParams={wcParams}
+      />
+      --- */}
       <TariConnectButton onConnected={handleOnConnected} />
       <div style={{ paddingLeft: "10px" }}>
         {`signer: ${

@@ -23,9 +23,9 @@ export function TariConnectButton(props: Props) {
     setWalletSelectionOpen(false);
   };
 
-  const handleOnConnected = (Signer: TariSigner) => {
-    setSigner(Signer);
-    onConnected?.(Signer);
+  const handleOnConnected = (tariSigner: TariSigner) => {
+    setSigner(tariSigner);
+    onConnected?.(tariSigner);
   };
 
   return (

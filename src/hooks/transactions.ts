@@ -1,19 +1,19 @@
 import {
   AccountData,
+  Amount,
   buildTransactionRequest,
   ComponentAddress,
-  fromWorkspace,
   Network,
   submitAndWaitForTransaction,
   TariSigner,
   TariUniverseSigner,
-  Transaction,
   TransactionBuilder,
   TransactionResult,
+  txResultCheck,
   WalletConnectTariSigner,
 } from "@tari-project/tarijs-all";
 
-export const FEE_AMOUNT = "10000";
+export const FEE_AMOUNT = 10000;
 export const AMOUNT: number = 1223;
 export const INIT_SUPPLY: number = 1000000;
 export const NETWORK = Network.Igor;
@@ -36,11 +36,10 @@ export async function takeFreeTokens(
   amount = AMOUNT
 ): Promise<TransactionResult> {
   const account = await signer.getAccount();
-  const builder = new TransactionBuilder();
+  const builder = new TransactionBuilder(NETWORK);
+  const fee = Amount.new(FEE_AMOUNT);
 
-  const required_substates = [{ substate_id: account.address }];
-
-  const tx: Transaction = builder
+  const tx = builder
     .callMethod(
       {
         componentAddress: componentAddress,
@@ -50,29 +49,22 @@ export async function takeFreeTokens(
     )
     .saveVar("tokens")
     .callMethod({ methodName: "deposit", componentAddress: account.address }, [
-      fromWorkspace("tokens"),
+      [{ Workspace: "tokens" }],
     ])
-    .feeTransactionPayFromComponent(account.address, FEE_AMOUNT)
-    .build();
+    .feeTransactionPayFromComponent(account.address, fee)
+    .buildUnsignedTransaction();
 
-  const req = buildTransactionRequest(
-    tx,
-    account.account_id,
-    required_substates,
-    [],
-    false,
-    NETWORK
-  );
-  const { response, result } = await submitAndWaitForTransaction(signer, req);
+  const req = buildTransactionRequest(tx, account.account_id);
+  const { result } = await submitAndWaitForTransaction(signer, req);
 
-  if (result.status === 3) {
+  if (txResultCheck.isAccept(result)) {
     console.log("✅ [tapp] tx accepted result", result);
   } else {
     console.log("❌ [tapp] tx rejected result", result);
   }
-  if (!response) throw new Error("Failed to create token: no response found");
+  if (!result) throw new Error("Failed to create token: no response found");
 
-  return result;
+  return result.result;
 }
 
 export async function createToken(
@@ -82,10 +74,11 @@ export async function createToken(
   token_symbol = "TOKEN"
 ): Promise<TransactionResult> {
   const account = await provider.getAccount();
-  const builder = new TransactionBuilder();
+  const builder = new TransactionBuilder(NETWORK);
+  const fee = Amount.new(FEE_AMOUNT);
 
-  const tx: Transaction = builder
-    .feeTransactionPayFromComponent(account.address, FEE_AMOUNT)
+  const tx = builder
+    .feeTransactionPayFromComponent(account.address, fee)
     .callFunction(
       {
         functionName: "mint",
@@ -93,26 +86,17 @@ export async function createToken(
       },
       [initSupply, token_symbol]
     )
-    .build();
+    .buildUnsignedTransaction();
 
-  const required_substates = [{ substate_id: account.address }];
-  const req = buildTransactionRequest(
-    tx,
-    account.account_id,
-    required_substates,
-    [],
-    false,
-    NETWORK
-  );
-  const submitTxResult = await submitAndWaitForTransaction(provider, req);
+  const req = buildTransactionRequest(tx, account.account_id);
+  const { result } = await submitAndWaitForTransaction(provider, req);
 
-  const { result } = submitTxResult;
-
-  if (result.status === 3) {
+  if (txResultCheck.isAccept(result)) {
     console.log("✅ [tapp] tx accepted result", result);
   } else {
     console.log("❌ [tapp] tx rejected result", result);
   }
+  if (!result) throw new Error("Failed to create token: no response found");
 
-  return result;
+  return result.result;
 }
