@@ -14,13 +14,15 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.3",
-    "@tari-project/react-mui-connect-button": "file:../../forked/tari.js/packages/react-mui-connect-button",
-    "@tari-project/tarijs-all": "file:../../forked/tari.js/packages/tarijs",
+    "@tari-project/tarijs-all": "^0.12.2",
+    "@tari-project/react-mui-connect-button": "^0.12.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
-    "@types/react": "^19.0.8",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^9.19.0",
@@ -30,9 +32,5 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.22.0",
     "vite": "^6.1.0"
-  },
-  "peerDependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
   }
 }
