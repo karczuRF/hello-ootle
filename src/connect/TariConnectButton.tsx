@@ -10,6 +10,7 @@ interface Props {
   onConnected?: (Signer: TariSigner) => void;
 }
 
+//TODO remove since Button can be imported from the tari.js repo
 export function TariConnectButton(props: Props) {
   const { signer, setSigner } = useTariSigner();
   const { onConnected } = props;

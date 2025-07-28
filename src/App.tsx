@@ -1,5 +1,4 @@
 import "./App.css";
-import { TariConnectButton } from "./connect/TariConnectButton";
 import {
   defaultPermissions,
   TariConnectButton as TCB,
@@ -10,14 +9,11 @@ import tariLogo from "./assets/tari.svg";
 import { Button, Paper, TextField } from "@mui/material";
 import { createToken, takeFreeTestnetTokens } from "./hooks/transactions";
 import { useCallback, useState } from "react";
-import { AccountData, TariSigner } from "@tari-project/tarijs-all";
 
 function App() {
   const { signer } = useTariSigner();
   const { ootleAccount, setOotleAccount } = useAccount();
   const [tokenTemplateAddress, setTokenTemplateAddress] = useState("");
-  const [wcSigner, setWcSigner] = useState<TariSigner | null>(null);
-  const [wcAccount, setAccount] = useState<AccountData | null>(null);
 
   const handleTokenTemplateAddressChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -44,12 +40,6 @@ function App() {
     const resp = await takeFreeTestnetTokens(signer);
     console.log("create tokens", resp);
   };
-  const onConnected = async (signer: TariSigner) => {
-    setWcSigner(signer);
-    const account = await signer.getAccount();
-    setAccount(account);
-    console.log("wc acc", wcAccount?.address);
-  };
 
   const WALLET_CONNECT_PROJECT_ID =
     import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || null;
@@ -67,12 +57,10 @@ function App() {
       </div>
       <h1>Hello Tari Ootle</h1>
       <TCB
-        isConnected={wcSigner?.isConnected() || false}
-        onConnected={onConnected}
+        isConnected={signer?.isConnected() || false}
+        onConnected={handleOnConnected}
         walletConnectParams={wcParams}
       />
-      ---
-      <TariConnectButton onConnected={handleOnConnected} />
       <div style={{ paddingLeft: "10px" }}>
         {`signer: ${
           signer?.isConnected() ? signer.signerName : "not connected"

@@ -7,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import TariLogo from "./content/tari-logo.svg";
 import WalletConnectLogo from "./content/walletconnect-logo.svg";
-import Grid from "@mui/material/Grid2";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import {
@@ -19,6 +18,7 @@ import {
   WalletDaemonFetchParameters,
   WalletDaemonTariSigner,
 } from "@tari-project/tarijs-all";
+import { Grid } from "@mui/material";
 
 const {
   TariPermissionAccountInfo,
