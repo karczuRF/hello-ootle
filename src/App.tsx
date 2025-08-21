@@ -10,14 +10,7 @@ import { Button, Paper, TextField } from "@mui/material";
 import { createToken, takeFreeTestnetTokens } from "./hooks/transactions";
 import { useCallback, useState } from "react";
 import { TariConnectButton } from "./connect/TariConnectButton";
-import { TariPermissions, permissions } from "@tari-project/tarijs-all";
-const {
-  TariPermissionKeyList,
-  TariPermissionTransactionsGet,
-  TariPermissionAccountInfo,
-  TariPermissionSubstatesRead,
-  TariPermissionTemplatesRead,
-} = permissions;
+import { TariPermissions } from "@tari-project/tarijs-all";
 
 function App() {
   const { signer } = useTariSigner();
@@ -58,15 +51,7 @@ function App() {
   };
   // Minimal permissions for the example site
   // But each application will have different permission needs
-  const walletTariPermissions = new TariPermissions();
-  walletTariPermissions
-    // Required for createFreeTestCoins
-    .addPermission("Admin")
-    .addPermission(new TariPermissionKeyList())
-    .addPermission(new TariPermissionAccountInfo())
-    .addPermission(new TariPermissionTransactionsGet())
-    .addPermission(new TariPermissionSubstatesRead())
-    .addPermission(new TariPermissionTemplatesRead());
+  const walletTariPermissions = defaultPermissions();
   const walletOptionalPermissions = new TariPermissions();
 
   return (
