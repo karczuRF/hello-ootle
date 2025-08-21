@@ -37,7 +37,7 @@ export async function takeFreeTokens(
 ): Promise<TransactionResult> {
   const account = await signer.getAccount();
   const builder = new TransactionBuilder(NETWORK);
-  const fee = Amount.new(FEE_AMOUNT);
+  const fee = new Amount(FEE_AMOUNT);
 
   const tx = builder
     .callMethod(
@@ -75,7 +75,7 @@ export async function createToken(
 ): Promise<TransactionResult> {
   const account = await provider.getAccount();
   const builder = new TransactionBuilder(NETWORK);
-  const fee = Amount.new(FEE_AMOUNT);
+  const fee = new Amount(FEE_AMOUNT);
 
   const tx = builder
     .feeTransactionPayFromComponent(account.address, fee)

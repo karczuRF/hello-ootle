@@ -22,7 +22,7 @@
 
 import { create } from "zustand";
 import useTariSigner from "./signer.ts";
-import { AccountData, WalletConnectTariSigner } from "@tari-project/tarijs-all";
+import { AccountData } from "@tari-project/tarijs-all";
 
 interface State {
   ootleAccount?: AccountData;
@@ -48,17 +48,20 @@ export const useAccount = create<OotleWalletStoreState>()((set) => ({
       if (!signer) {
         return;
       }
+      console.warn("Try to set the Ootle account getAccount");
       const account = await signer.getAccount();
-      console.warn("Try to set the Ootle account: ", account);
-      const wcsigner = signer as WalletConnectTariSigner;
-      console.warn("🛜🛜 GET NFTS WALLETCONNECT PROVIDER: ", signer);
-      // const nft = await wcsigner.getNftsList({
-      //   account: { ComponentAddress: account.address },
-      //   limit: 20,
-      //   offset: 0,
-      // });
+      console.warn("🛜🛜 Try to set the Ootle account: ", account);
 
-      // console.warn("🛜🛜 GET NFTS WALLETCONNECT: ", nft);
+      // TODO uncomment if needed
+      // const wcsigner = signer as WalletConnectTariSigner;
+      console.warn("🛜🛜 GET NFTS WALLETCONNECT PROVIDER: ", signer);
+      const nft = await signer.getNftsList({
+        account: { ComponentAddress: account.address },
+        limit: 20,
+        offset: 0,
+      });
+      console.warn("🛜🛜 GET NFTS WALLETCONNECT: ", nft);
+
       set({
         ootleAccount: {
           account_id: account.account_id,

@@ -13,5 +13,6 @@
       "TariPermissionTransactionSend"
     ],
     "optionalPermissions": []
-  }
+  },
+  "csp": "default-src 'self' https: wss://relay.walletconnect.org; script-src 'self' https: 'unsafe-inline'; img-src 'self' data:; style-src 'self' 'unsafe-inline';"
 }

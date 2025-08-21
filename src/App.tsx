@@ -9,6 +9,15 @@ import tariLogo from "./assets/tari.svg";
 import { Button, Paper, TextField } from "@mui/material";
 import { createToken, takeFreeTestnetTokens } from "./hooks/transactions";
 import { useCallback, useState } from "react";
+import { TariConnectButton } from "./connect/TariConnectButton";
+import { TariPermissions, permissions } from "@tari-project/tarijs-all";
+const {
+  TariPermissionKeyList,
+  TariPermissionTransactionsGet,
+  TariPermissionAccountInfo,
+  TariPermissionSubstatesRead,
+  TariPermissionTemplatesRead,
+} = permissions;
 
 function App() {
   const { signer } = useTariSigner();
@@ -47,6 +56,18 @@ function App() {
     projectId: WALLET_CONNECT_PROJECT_ID,
     requiredPermissions: defaultPermissions().getPermissions(),
   };
+  // Minimal permissions for the example site
+  // But each application will have different permission needs
+  const walletTariPermissions = new TariPermissions();
+  walletTariPermissions
+    // Required for createFreeTestCoins
+    .addPermission("Admin")
+    .addPermission(new TariPermissionKeyList())
+    .addPermission(new TariPermissionAccountInfo())
+    .addPermission(new TariPermissionTransactionsGet())
+    .addPermission(new TariPermissionSubstatesRead())
+    .addPermission(new TariPermissionTemplatesRead());
+  const walletOptionalPermissions = new TariPermissions();
 
   return (
     <>
@@ -55,12 +76,17 @@ function App() {
           <img src={tariLogo} className="logo tari" alt="Tari logo" />
         </a>
       </div>
-      <h1>Hello Tari Ootle</h1>
+      <h1>Hello Tari Ootle v1</h1>
       <TCB
         isConnected={signer?.isConnected() || false}
         onConnected={handleOnConnected}
         walletConnectParams={wcParams}
+        tariUniverseParams={{
+          permissions: walletTariPermissions,
+          optionalPermissions: walletOptionalPermissions,
+        }}
       />
+      <TariConnectButton onConnected={handleOnConnected} />
       <div style={{ paddingLeft: "10px" }}>
         {`signer: ${
           signer?.isConnected() ? signer.signerName : "not connected"
@@ -91,10 +117,16 @@ function App() {
               onChange={handleTokenTemplateAddressChange}
             />
             <Button onClick={onCreateToken} variant={"outlined"}>
+              {`Get balance`}
+            </Button>
+            <Button onClick={onCreateToken} variant={"outlined"}>
               {`Create Token`}
             </Button>
             <Button onClick={onClaimFreeTestnetTokens} variant={"outlined"}>
               {`Claim free testnet tokens`}
+            </Button>
+            <Button onClick={onCreateToken} variant={"outlined"}>
+              {`Send data`}
             </Button>
           </Paper>
         </div>
