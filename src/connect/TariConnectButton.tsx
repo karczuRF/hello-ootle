@@ -10,7 +10,8 @@ interface Props {
   onConnected?: (Signer: TariSigner) => void;
 }
 
-//TODO remove since Button can be imported from the tari.js repo
+//TODO can be replaced with the Connect Button from the `tarijs-all`
+// as soon as the Tari Universe option is implemented in tari.js
 export function TariConnectButton(props: Props) {
   const { signer, setSigner } = useTariSigner();
   const { onConnected } = props;

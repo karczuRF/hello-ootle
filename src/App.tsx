@@ -12,10 +12,52 @@ import { useCallback, useState } from "react";
 import { TariConnectButton } from "./connect/TariConnectButton";
 import { TariPermissions } from "@tari-project/tarijs-all";
 
+const MY_PACKAGE_NAME = "hello-ootle";
+
 function App() {
   const { signer } = useTariSigner();
   const { ootleAccount, setOotleAccount } = useAccount();
   const [tokenTemplateAddress, setTokenTemplateAddress] = useState("");
+
+  window.addEventListener("message", (event) => {
+    if (event.data.type === "INTER_TAPPLET") {
+      const { sourceTappletRegistryId, targetTappletRegistryId, msg } =
+        event.data.payload;
+
+      // Check if this message is for us
+      if (targetTappletRegistryId === MY_PACKAGE_NAME) {
+        console.log("Received message from:", sourceTappletRegistryId, msg);
+
+        // Send response back
+        window.parent.postMessage(
+          {
+            type: "INTER_TAPPLET",
+            payload: {
+              sourceTappletRegistryId: MY_PACKAGE_NAME,
+              targetTappletRegistryId: sourceTappletRegistryId,
+              msg: "Response to: " + msg,
+            },
+          },
+          "*"
+        );
+      }
+    }
+  });
+
+  // To initiate communication
+  function sendMessageToOtherTapplet() {
+    window.parent.postMessage(
+      {
+        type: "INTER_TAPPLET",
+        payload: {
+          sourceTappletRegistryId: MY_PACKAGE_NAME,
+          targetTappletRegistryId: "wxtm-bridge-frontend",
+          msg: "eloszki from the Hello-Ootle",
+        },
+      },
+      "*"
+    );
+  }
 
   const handleTokenTemplateAddressChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -61,16 +103,7 @@ function App() {
           <img src={tariLogo} className="logo tari" alt="Tari logo" />
         </a>
       </div>
-      <h1>Hello Tari Ootle v1</h1>
-      <TCB
-        isConnected={signer?.isConnected() || false}
-        onConnected={handleOnConnected}
-        walletConnectParams={wcParams}
-        tariUniverseParams={{
-          permissions: walletTariPermissions,
-          optionalPermissions: walletOptionalPermissions,
-        }}
-      />
+      <h1>Hello Tari Ootle</h1>
       <TariConnectButton onConnected={handleOnConnected} />
       <div style={{ paddingLeft: "10px" }}>
         {`signer: ${
